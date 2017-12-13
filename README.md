@@ -1,6 +1,6 @@
 [ ![Download](https://api.bintray.com/packages/bincrafters/public-conan/mysql-connector-c%3Abincrafters/images/download.svg) ](https://bintray.com/bincrafters/public-conan/mysql-connector-c%3Abincrafters/_latestVersion)
 [![Build Status](https://api.travis-ci.org/bincrafters/conan-mysql-connector-c.svg?branch=testing%2F6.11.1)](https://travis-ci.org/bincrafters/conan-mysql-connector-c)
-[![Build status](https://ci.appveyor.com/api/projects/status/wxnsuv71wxx86wgk?svg=true)](https://ci.appveyor.com/project/BinCrafters/conan-mysqlclient)
+[![Build status](https://ci.appveyor.com/api/projects/status/wljr6e0iy9p9cir0?svg=true)](https://ci.appveyor.com/project/BinCrafters/conan-mysql-connector-c)
 
 [Conan.io](https://conan.io) package for [MySQL Connector/C](https://dev.mysql.com/downloads/connector/c/) project
 
