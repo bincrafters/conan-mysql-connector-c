@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from conans import ConanFile, CMake, tools
-import os, shutil
+import os
 
 class MysqlConnectorCConan(ConanFile):
     name = "mysql-connector-c"
@@ -11,7 +11,7 @@ class MysqlConnectorCConan(ConanFile):
     description = "Connector/C (libmysqlclient) is a MySQL client library for C development."
     license = "http://www.gnu.org/licenses/old-licenses/gpl-2.0.html"
     generators = "cmake", "txt"
-    exports_sources = ["CMakeLists.txt"]
+    exports_sources = ["CMakeLists.txt", "LICENSE"]
     settings = "os", "arch", "compiler", "build_type"
     options = {"shared": [True, False]}
     default_options = "shared=False"
@@ -21,14 +21,13 @@ class MysqlConnectorCConan(ConanFile):
         tools.get("{0}/mysql-connector-c-{1}-src.tar.gz".format(source_url, self.version))
         extracted_dir = self.name + "-" + self.version + "-src"
         os.rename(extracted_dir, "sources")
-        shutil.move("sources/CMakeLists.txt", "sources/CMakeListsOriginal.cmake")
-        shutil.copy("CMakeLists.txt", "sources/CMakeLists.txt")
 
     def build(self):
+        conan_magic_lines='''project(mysql-connector-c)
+        include(../conanbuildinfo.cmake)
+        conan_basic_setup()'''
+        tools.replace_in_file(os.path.join("sources","CMakeLists.txt"), "# First, decide about build type (debug or release)", conan_magic_lines)
         cmake = CMake(self)
-
-        cmake.definitions["CMAKE_INSTALL_PREFIX"] = "package"
-
         if self.options.shared:
             cmake.definitions["DISABLE_SHARED"] = "OFF"
             cmake.definitions["DISABLE_STATIC"] = "ON"
@@ -45,15 +44,7 @@ class MysqlConnectorCConan(ConanFile):
         cmake.install()
 
     def package(self):
-        self.copy(pattern="*", dst="include", src="package/include")
-        self.copy(pattern="*.dll", dst="bin", src="package/lib", keep_path=False)
-        self.copy(pattern="*.lib", dst="lib", src="package/lib", keep_path=False)
-        self.copy(pattern="*.a", dst="lib", src="package/lib", keep_path=False)
-        self.copy(pattern="*.so*", dst="lib", src="package/lib", keep_path=False)
-        self.copy(pattern="*.dylib", dst="lib", src="package/lib", keep_path=False)
+        pass
 
     def package_info(self):
-        if self.settings.compiler == "Visual Studio" and self.options.shared:
-            self.cpp_info.libs = ["libmysql"]
-        else:
-            self.cpp_info.libs = ["mysqlclient"]
+        self.cpp_info.libs = tools.collect_libs(self)
