@@ -23,25 +23,28 @@ class MysqlConnectorCConan(ConanFile):
         os.rename(extracted_dir, "sources")
 
     def build(self):
-        with tools.chdir("sources"):
-            cmake = CMake(self)
-            if self.options.shared:
-                cmake.definitions["DISABLE_SHARED"] = "OFF"
-                cmake.definitions["DISABLE_STATIC"] = "ON"
-            else:
-                cmake.definitions["DISABLE_SHARED"] = "ON"
-                cmake.definitions["DISABLE_STATIC"] = "OFF"
+        conan_magic_lines='''project(mysql-connector-c)
+        include(../conanbuildinfo.cmake)
+        conan_basic_setup()'''
+        tools.replace_in_file(os.path.join("sources","CMakeLists.txt"), "# First, decide about build type (debug or release)", conan_magic_lines)
+        cmake = CMake(self)
+        if self.options.shared:
+            cmake.definitions["DISABLE_SHARED"] = "OFF"
+            cmake.definitions["DISABLE_STATIC"] = "ON"
+        else:
+            cmake.definitions["DISABLE_SHARED"] = "ON"
+            cmake.definitions["DISABLE_STATIC"] = "OFF"
 
-            if self.settings.compiler == "Visual Studio":
-                if self.settings.compiler.runtime == "MD" or self.settings.compiler.runtime == "MDd":
-                    cmake.definitions["WINDOWS_RUNTIME_MD"] = "ON"
+        if self.settings.compiler == "Visual Studio":
+            if self.settings.compiler.runtime == "MD" or self.settings.compiler.runtime == "MDd":
+                cmake.definitions["WINDOWS_RUNTIME_MD"] = "ON"
 
-            cmake.configure(source_dir="sources")
-            cmake.build()
-            cmake.install()
+        cmake.configure(source_dir="sources")
+        cmake.build()
+        cmake.install()
 
     def package(self):
         pass
-    
+
     def package_info(self):
         self.cpp_info.libs = tools.collect_libs(self)
