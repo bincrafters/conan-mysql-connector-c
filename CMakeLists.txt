@@ -11,4 +11,6 @@ include("CMakeListsOriginal.txt")
 if(CMAKE_COMPILER_IS_GNUCC AND CMAKE_COMPILER_IS_GNUCXX)
 	target_compile_options(mysys
 		PUBLIC -Wno-error)
+	target_compile_options(strings
+		PUBLIC -Wno-error)
 endif()
