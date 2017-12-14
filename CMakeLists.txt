@@ -4,7 +4,7 @@ project(cmake_wrapper)
 message(WARNING "Conan MySQL Connector/C Wrapped CMake")
 
 include(../conanbuildinfo.cmake)
-conan_basic_setup()
+conan_basic_setup(NO_OUTPUT_DIRS)
 include("CMakeListsOriginal.txt")
 
 # Turn off -Werror in GCC debug builds.
