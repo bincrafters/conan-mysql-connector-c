@@ -2,13 +2,13 @@
 # -*- coding: utf-8 -*-
 
 from conans import ConanFile, CMake, tools
-import os
+import os, shutil
 
 class MysqlConnectorCConan(ConanFile):
     name = "mysql-connector-c"
     version = "6.1.11"
     url = "https://github.com/bincrafters/conan-mysql-connector-c"
-    description = "Connector/C (libmysqlclient) is a MySQL client library for C development."
+    description = "A a MySQL client library for C development."
     license = "http://www.gnu.org/licenses/old-licenses/gpl-2.0.html"
     generators = "cmake"
     exports_sources = ["CMakeLists.txt", "LICENSE"]
@@ -32,6 +32,8 @@ class MysqlConnectorCConan(ConanFile):
     def build(self):
         cmake = CMake(self)
         
+        cmake.definitions["CMAKE_INSTALL_PREFIX"] = "package"
+        
         if self.options.shared:
             cmake.definitions["DISABLE_SHARED"] = "OFF"
             cmake.definitions["DISABLE_STATIC"] = "ON"
@@ -45,15 +47,16 @@ class MysqlConnectorCConan(ConanFile):
 
         cmake.configure(source_dir="sources")
         cmake.build()
+        cmake.install()
 
     def package(self):
-        self.copy(pattern="COPYING", dst="include", src="sources")
-        self.copy(pattern="*", dst="include", src=os.path.join("include", "sources"))
-        self.copy(pattern="*.dll", dst="bin", keep_path=False)
-        self.copy(pattern="*.lib", dst="lib", keep_path=False)
-        self.copy(pattern="*.a", dst="lib", keep_path=False)
-        self.copy(pattern="*.so*", dst="lib", keep_path=False)
-        self.copy(pattern="*.dylib", dst="lib", keep_path=False)
-
+        self.copy(pattern="COPYING", src="sources")
+        self.copy(pattern="*", dst="include", src="package/include")
+        self.copy(pattern="*.dll", dst="bin", src="package/lib", keep_path=False)
+        self.copy(pattern="*.lib", dst="lib", src="package/lib", keep_path=False)
+        self.copy(pattern="*.a", dst="lib", src="package/lib", keep_path=False)
+        self.copy(pattern="*.so*", dst="lib", src="package/lib", keep_path=False)
+        self.copy(pattern="*.dylib", dst="lib", src="package/lib", keep_path=False)
+        
     def package_info(self):
         self.cpp_info.libs = tools.collect_libs(self)
