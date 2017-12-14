@@ -28,12 +28,10 @@ class MysqlConnectorCConan(ConanFile):
         
         os.rename(sources_cmake, sources_cmake_orig)
         os.rename("CMakeLists.txt", sources_cmake)
-            
+
     def build(self):
         cmake = CMake(self)
-        
-        cmake.definitions["CMAKE_INSTALL_PREFIX"] = "package"
-        
+
         if self.options.shared:
             cmake.definitions["DISABLE_SHARED"] = "OFF"
             cmake.definitions["DISABLE_STATIC"] = "ON"
@@ -50,14 +48,8 @@ class MysqlConnectorCConan(ConanFile):
         cmake.install()
 
     def package(self):
-        self.copy(pattern="COPYING", src="sources")
-        self.copy(pattern="*", dst="include", src="package/include")
-        self.copy(pattern="*.dll", dst="bin", src="package/lib", keep_path=False)
-        self.copy(pattern="*.lib", dst="lib", src="package/lib", keep_path=False)
-        self.copy(pattern="*.a", dst="lib", src="package/lib", keep_path=False)
-        self.copy(pattern="*.so*", dst="lib", src="package/lib", keep_path=False)
-        self.copy(pattern="*.dylib", dst="lib", src="package/lib", keep_path=False)
-        
+        pass
+
     def package_info(self):
         self.cpp_info.libs = tools.collect_libs(self)
         self.cpp_info.bindirs = ['lib']
