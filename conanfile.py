@@ -11,7 +11,7 @@ class MysqlConnectorCConan(ConanFile):
     description = "A MySQL client library for C development."
     license = "http://www.gnu.org/licenses/old-licenses/gpl-2.0.html"
     generators = "cmake"
-    exports_sources = ["CMakeLists.txt", "LICENSE"]
+    exports_sources = ["CMakeLists.txt", "LICENSE.md"]
     settings = "os", "arch", "compiler", "build_type"
     options = {"shared": [True, False]}
     default_options = "shared=False"

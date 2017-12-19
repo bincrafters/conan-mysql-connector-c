@@ -1,13 +1,10 @@
 build: false
 
-max_jobs: 2
-
 environment:
     PYTHON: "C:\\Python27"
     PYTHON_VERSION: "2.7.8"
     PYTHON_ARCH: "32"
-
-    CONAN_TOTAL_PAGES: 6
+    CONAN_TOTAL_PAGES: 4
 
     matrix:
         - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015

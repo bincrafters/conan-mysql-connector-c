@@ -46,5 +46,9 @@ The following command both runs all the steps of the conan file, and publishes t
 
     $ conan upload mysql-connector-c/6.1.11@bincrafters/stable --all -r bincrafters
 
-## License
-[GPLv2](http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
+## Conan Recipe License
+
+NOTE: The conan recipe license applies only to the files of this recipe, which can be used to build and package the software.
+It does *not* in any way apply or is related to the actual software being packaged.
+
+[MIT](https://github.com/bincrafters/conan-glog/blob/testing/0.3.5/LICENSE.md)
