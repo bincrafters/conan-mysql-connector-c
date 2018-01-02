@@ -9,9 +9,10 @@ class MysqlConnectorCConan(ConanFile):
     version = "6.1.11"
     url = "https://github.com/bincrafters/conan-mysql-connector-c"
     description = "A MySQL client library for C development."
-    license = "http://www.gnu.org/licenses/old-licenses/gpl-2.0.html"
+    license = "GPL-2.0"
+    exports = ["LICENSE.md"]
+    exports_sources = ["CMakeLists.txt"]
     generators = "cmake"
-    exports_sources = ["CMakeLists.txt", "LICENSE.md"]
     settings = "os", "arch", "compiler", "build_type"
     options = {"shared": [True, False]}
     default_options = "shared=False"
