@@ -14,8 +14,15 @@ class MysqlConnectorCConan(ConanFile):
     exports_sources = ["CMakeLists.txt"]
     generators = "cmake"
     settings = "os", "arch", "compiler", "build_type"
-    options = {"shared": [True, False]}
-    default_options = "shared=False"
+    options = {"shared": [True, False], "with_ssl": [True, False], "with_zlib": [True, False]}
+    default_options = "shared=False", "with_ssl=False", "with_zlib=False"
+
+    def requirements(self):
+        if self.options.with_ssl:
+            self.requires.add("OpenSSL/1.0.2o@conan/stable")
+
+        if self.options.with_zlib:
+            self.requires.add("zlib/1.2.11@conan/stable")
 
     def source(self):
         source_url = "http://dev.mysql.com/get/Downloads/Connector-C"
@@ -23,10 +30,10 @@ class MysqlConnectorCConan(ConanFile):
         ext = "tar.gz"
         tools.get("{0}/{1}.{2}".format(source_url, archive_name, ext))
         os.rename(archive_name, "sources")
-        
+
         sources_cmake = os.path.join("sources", "CMakeLists.txt")
         sources_cmake_orig = os.path.join("sources", "CMakeListsOriginal.txt")
-        
+
         os.rename(sources_cmake, sources_cmake_orig)
         os.rename("CMakeLists.txt", sources_cmake)
 
@@ -43,6 +50,12 @@ class MysqlConnectorCConan(ConanFile):
         if self.settings.compiler == "Visual Studio":
             if self.settings.compiler.runtime == "MD" or self.settings.compiler.runtime == "MDd":
                 cmake.definitions["WINDOWS_RUNTIME_MD"] = "ON"
+
+        if self.options.with_ssl:
+            cmake.definitions["WITH_SSL"] = "system"
+
+        if self.options.with_zlib:
+            cmake.definitions["WITH_ZLIB"] = "system"
 
         cmake.configure(source_dir="sources")
         cmake.build()
