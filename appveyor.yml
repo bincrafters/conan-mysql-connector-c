@@ -7,6 +7,23 @@ environment:
     CONAN_TOTAL_PAGES: 4
 
     matrix:
+        - MINGW_CONFIGURATIONS: '4.9@x86@dwarf2@posix, 5@x86@dwarf2@posix, 6@x86@dwarf2@posix, 7@x86@dwarf2@posix, 8@x86@dwarf2@posix'
+          CONAN_CURRENT_PAGE: 1
+        - MINGW_CONFIGURATIONS: '4.9@x86@dwarf2@posix, 5@x86@dwarf2@posix, 6@x86@dwarf2@posix, 7@x86@dwarf2@posix, 8@x86@dwarf2@posix'
+          CONAN_CURRENT_PAGE: 2
+        - MINGW_CONFIGURATIONS: '4.9@x86@dwarf2@posix, 5@x86@dwarf2@posix, 6@x86@dwarf2@posix, 7@x86@dwarf2@posix, 8@x86@dwarf2@posix'
+          CONAN_CURRENT_PAGE: 3
+        - MINGW_CONFIGURATIONS: '4.9@x86@dwarf2@posix, 5@x86@dwarf2@posix, 6@x86@dwarf2@posix, 7@x86@dwarf2@posix, 8@x86@dwarf2@posix'
+          CONAN_CURRENT_PAGE: 4
+        - MINGW_CONFIGURATIONS: '4.9@x86_64@seh@posix, 5@x86_64@seh@posix, 6@x86_64@seh@posix, 7@x86_64@seh@posix, 8@x86_64@seh@posix'
+          CONAN_CURRENT_PAGE: 1
+        - MINGW_CONFIGURATIONS: '4.9@x86_64@seh@posix, 5@x86_64@seh@posix, 6@x86_64@seh@posix, 7@x86_64@seh@posix, 8@x86_64@seh@posix'
+          CONAN_CURRENT_PAGE: 2
+        - MINGW_CONFIGURATIONS: '4.9@x86_64@seh@posix, 5@x86_64@seh@posix, 6@x86_64@seh@posix, 7@x86_64@seh@posix, 8@x86_64@seh@posix'
+          CONAN_CURRENT_PAGE: 3
+        - MINGW_CONFIGURATIONS: '4.9@x86_64@seh@posix, 5@x86_64@seh@posix, 6@x86_64@seh@posix, 7@x86_64@seh@posix, 8@x86_64@seh@posix'
+          CONAN_CURRENT_PAGE: 4
+          
         - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
           CONAN_VISUAL_VERSIONS: 12
           CONAN_CURRENT_PAGE: 1
