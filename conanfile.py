@@ -2,7 +2,9 @@
 # -*- coding: utf-8 -*-
 
 from conans import ConanFile, CMake, tools
-import os, shutil
+import glob
+import os
+
 
 class MysqlConnectorCConan(ConanFile):
     name = "mysql-connector-c"
@@ -14,11 +16,12 @@ class MysqlConnectorCConan(ConanFile):
     author = "Bincrafters <bincrafters@gmail.com>"
     license = "GPL-2.0"
     exports = ["LICENSE.md"]
-    exports_sources = ["CMakeLists.txt"]
+    exports_sources = ["CMakeLists.txt", "patches/*.patch"]
     generators = "cmake"
     settings = "os", "arch", "compiler", "build_type"
     options = {"shared": [True, False], "with_ssl": [True, False], "with_zlib": [True, False]}
     default_options = {'shared': False, 'with_ssl': True, 'with_zlib': True}
+    _source_subfolder = "source_subfolder"
 
     def requirements(self):
         if self.options.with_ssl:
@@ -32,15 +35,19 @@ class MysqlConnectorCConan(ConanFile):
         archive_name = self.name + "-" + self.version + "-src"
         ext = "tar.gz"
         tools.get("{0}/{1}.{2}".format(source_url, archive_name, ext))
-        os.rename(archive_name, "sources")
+        os.rename(archive_name, self._source_subfolder)
 
-        sources_cmake = os.path.join("sources", "CMakeLists.txt")
-        sources_cmake_orig = os.path.join("sources", "CMakeListsOriginal.txt")
+        sources_cmake = os.path.join(self._source_subfolder, "CMakeLists.txt")
+        sources_cmake_orig = os.path.join(self._source_subfolder, "CMakeListsOriginal.txt")
 
         os.rename(sources_cmake, sources_cmake_orig)
         os.rename("CMakeLists.txt", sources_cmake)
 
     def build(self):
+        for filename in glob.glob("patches/*.patch"):
+            self.output.info('applying patch "%s"' % filename)
+            tools.patch(base_path=self._source_subfolder, patch_file=filename)
+
         cmake = CMake(self)
 
         if self.options.shared:
@@ -60,7 +67,7 @@ class MysqlConnectorCConan(ConanFile):
         if self.options.with_zlib:
             cmake.definitions["WITH_ZLIB"] = "system"
 
-        cmake.configure(source_dir="sources")
+        cmake.configure(source_dir=self._source_subfolder)
         cmake.build()
         cmake.install()
 
