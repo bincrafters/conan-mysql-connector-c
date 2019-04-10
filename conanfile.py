@@ -9,13 +9,16 @@ class MysqlConnectorCConan(ConanFile):
     version = "6.1.11"
     url = "https://github.com/bincrafters/conan-mysql-connector-c"
     description = "A MySQL client library for C development."
+    topics = ("conan", "mysql", "sql", "connector", "database")
+    homepage = "https://dev.mysql.com/downloads/connector/c/"
+    author = "Bincrafters <bincrafters@gmail.com>"
     license = "GPL-2.0"
     exports = ["LICENSE.md"]
     exports_sources = ["CMakeLists.txt"]
     generators = "cmake"
     settings = "os", "arch", "compiler", "build_type"
     options = {"shared": [True, False], "with_ssl": [True, False], "with_zlib": [True, False]}
-    default_options = "shared=False", "with_ssl=True", "with_zlib=True"
+    default_options = {'shared': False, 'with_ssl': True, 'with_zlib': True}
 
     def requirements(self):
         if self.options.with_ssl:
