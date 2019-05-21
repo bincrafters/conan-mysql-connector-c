@@ -1,14 +1,8 @@
 build: false
 
 environment:
-<<<<<<< HEAD
-    PYTHON: "C:\\Python27"
-    PYTHON_VERSION: "2.7.8"
-    PYTHON_ARCH: "32"
-=======
     PYTHON_HOME: "C:\\Python37"
     CONAN_TOTAL_PAGES: 4
->>>>>>> stable/6.1.11
 
     matrix:
         - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
