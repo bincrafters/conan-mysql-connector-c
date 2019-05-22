@@ -20,13 +20,17 @@ class MysqlConnectorCConan(ConanFile):
     exports_sources = ["CMakeLists.txt", "patches/*.patch"]
     generators = "cmake"
     settings = "os", "arch", "compiler", "build_type"
-    options = {"shared": [True, False], "with_ssl": [True, False], "with_zlib": [True, False]}
-    default_options = {'shared': False, 'with_ssl': True, 'with_zlib': True}
+    options = {"shared": [True, False],
+               "with_ssl": [True, False],
+               "with_zlib": [True, False]}
+    default_options = {'shared': False,
+                       'with_ssl': True,
+                       'with_zlib': True}
     _source_subfolder = "source_subfolder"
 
     def requirements(self):
         if self.options.with_ssl:
-            self.requires.add("OpenSSL/1.0.2r@conan/stable")
+            self.requires.add("OpenSSL/1.1.1a@conan/stable")
 
         if self.options.with_zlib:
             self.requires.add("zlib/1.2.11@conan/stable")
