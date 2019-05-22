@@ -2,7 +2,7 @@
 
 | Bintray | Appveyor | Travis | 
 |---------|-----------|--------|
-|[![Download](https://api.bintray.com/packages/bincrafters/public-conan/mysql-connector-c%3Abincrafters/images/download.svg)](https://bintray.com/bincrafters/public-conan/mysql-connector-c%3Abincrafters/_latestVersion)|[![Build status](https://ci.appveyor.com/api/projects/status/wljr6e0iy9p9cir0?svg=true)](https://ci.appveyor.com/project/BinCrafters/conan-mysql-connector-c)|[![Build Status](https://api.travis-ci.org/bincrafters/conan-mysql-connector-c.svg?branch=stable%2F6.11.1)](https://travis-ci.org/bincrafters/conan-mysql-connector-c)|
+|[![Download](https://api.bintray.com/packages/bincrafters/public-conan/mysql-connector-c%3Abincrafters/images/download.svg)](https://bintray.com/bincrafters/public-conan/mysql-connector-c%3Abincrafters/_latestVersion)|[![Build status](https://ci.appveyor.com/api/projects/status/wljr6e0iy9p9cir0?svg=true)](https://ci.appveyor.com/project/BinCrafters/conan-mysql-connector-c)|[![Build Status](https://api.travis-ci.org/bincrafters/conan-mysql-connector-c.svg?branch=stable%2F6.11.1)](https://travis-ci.com/bincrafters/conan-mysql-connector-c)|
 
 ## Conan.io Information
 

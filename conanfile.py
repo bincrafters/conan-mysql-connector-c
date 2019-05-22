@@ -26,16 +26,17 @@ class MysqlConnectorCConan(ConanFile):
 
     def requirements(self):
         if self.options.with_ssl:
-            self.requires.add("OpenSSL/1.0.2o@conan/stable")
+            self.requires.add("OpenSSL/1.0.2r@conan/stable")
 
         if self.options.with_zlib:
             self.requires.add("zlib/1.2.11@conan/stable")
 
     def source(self):
+        sha256 = "c8664851487200162b38b6f3c8db69850bd4f0e4c5ff5a6d161dbfb5cb76b6c4"
         source_url = "http://dev.mysql.com/get/Downloads/Connector-C"
         archive_name = self.name + "-" + self.version + "-src"
         ext = "tar.gz"
-        tools.get("{0}/{1}.{2}".format(source_url, archive_name, ext))
+        tools.get("{0}/{1}.{2}".format(source_url, archive_name, ext), sha256=sha256)
         os.rename(archive_name, self._source_subfolder)
 
         sources_cmake = os.path.join(self._source_subfolder, "CMakeLists.txt")
