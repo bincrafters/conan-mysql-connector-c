@@ -1,0 +1,33 @@
+From 2a13a8ef755e4e3b2cd151cd2775c274d998ce44 Mon Sep 17 00:00:00 2001
+From: Julien Marrec <julien.marrec@gmail.com>
+Date: Wed, 22 May 2019 16:13:51 +0200
+Subject: [PATCH] DH is hidden and cannot be dereferenced in OpenSSL 1.1.1x
+
+---
+ vio/viosslfactories.c | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
+
+diff --git a/vio/viosslfactories.c b/vio/viosslfactories.c
+index da5449a..f65b305 100644
+--- a/vio/viosslfactories.c
++++ b/vio/viosslfactories.c
+@@ -121,10 +121,13 @@ static DH *get_dh2048(void)
+   DH *dh;
+   if ((dh=DH_new()))
+   {
+-    dh->p=BN_bin2bn(dh2048_p,sizeof(dh2048_p),NULL);
+-    dh->g=BN_bin2bn(dh2048_g,sizeof(dh2048_g),NULL);
+-    if (! dh->p || ! dh->g)
++    BIGNUM  *p, *g;
++    p = BN_bin2bn(dh2048_p,sizeof(dh2048_p),NULL);
++    g = BN_bin2bn(dh2048_g,sizeof(dh2048_g),NULL);
++    if ((p == NULL) || (g == NULL))
+     {
++      BN_free(p);
++      BN_free(g);
+       DH_free(dh);
+       dh=0;
+     }
+-- 
+2.21.0
+
