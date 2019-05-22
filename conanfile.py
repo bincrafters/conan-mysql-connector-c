@@ -6,6 +6,7 @@ import glob
 import os
 
 
+
 class MysqlConnectorCConan(ConanFile):
     name = "mysql-connector-c"
     version = "6.1.11"
@@ -50,16 +51,12 @@ class MysqlConnectorCConan(ConanFile):
 
         cmake = CMake(self)
 
-        if self.options.shared:
-            cmake.definitions["DISABLE_SHARED"] = "OFF"
-            cmake.definitions["DISABLE_STATIC"] = "ON"
-        else:
-            cmake.definitions["DISABLE_SHARED"] = "ON"
-            cmake.definitions["DISABLE_STATIC"] = "OFF"
+        cmake.definitions["DISABLE_SHARED"] = not self.options.shared
+        cmake.definitions["DISABLE_STATIC"] = self.options.shared
 
         if self.settings.compiler == "Visual Studio":
             if self.settings.compiler.runtime == "MD" or self.settings.compiler.runtime == "MDd":
-                cmake.definitions["WINDOWS_RUNTIME_MD"] = "ON"
+                cmake.definitions["WINDOWS_RUNTIME_MD"] = True
 
         if self.options.with_ssl:
             cmake.definitions["WITH_SSL"] = "system"
