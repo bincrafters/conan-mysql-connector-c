@@ -30,7 +30,7 @@ class MysqlConnectorCConan(ConanFile):
 
     def requirements(self):
         if self.options.with_ssl:
-            self.requires.add("OpenSSL/1.1.1b@conan/stable")
+            self.requires.add("OpenSSL/1.1.1c@conan/stable")
 
         if self.options.with_zlib:
             self.requires.add("zlib/1.2.11@conan/stable")
