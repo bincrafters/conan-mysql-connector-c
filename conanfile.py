@@ -54,6 +54,7 @@ class MysqlConnectorCConan(ConanFile):
 
         cmake.definitions["DISABLE_SHARED"] = not self.options.shared
         cmake.definitions["DISABLE_STATIC"] = self.options.shared
+        cmake.definitions["STACK_DIRECTION"] = "-1"  # stack grows downwards, on very few platforms stack grows upwards
 
         if self.settings.compiler == "Visual Studio":
             if self.settings.compiler.runtime == "MD" or self.settings.compiler.runtime == "MDd":
