@@ -45,6 +45,10 @@ class MysqlConnectorCConan(ConanFile):
         os.rename(sources_cmake, sources_cmake_orig)
         os.rename("CMakeLists.txt", sources_cmake)
 
+    def configure(self):
+        del self.settings.compiler.libcxx
+        del self.settings.compiler.cppstd
+
     def build(self):
         for filename in glob.glob("patches/*.patch"):
             self.output.info('applying patch "%s"' % filename)
